@@ -48,7 +48,11 @@ declare module "@opentui/solid" {
 
 extend({ shatter_intro: ShatterIntroRenderable })
 
-export function ShatterIntro(props: { onDone?: () => void }) {
+interface ShatterIntroProps {
+  onDone?: () => void
+}
+
+export function ShatterIntro({ onDone }: ShatterIntroProps) {
   const renderer = useRenderer()
   let targetFps = renderer.targetFps
   let maxFps = renderer.maxFps
@@ -71,7 +75,7 @@ export function ShatterIntro(props: { onDone?: () => void }) {
     <shatter_intro
       width="100%"
       height="100%"
-      onDone={props.onDone}
+      onDone={onDone}
       live
     />
   )
