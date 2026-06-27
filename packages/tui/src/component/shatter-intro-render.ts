@@ -41,6 +41,7 @@ export class ShatterPainter {
   private screenHeight = 0
   private animationDone = false
   onComplete: (() => void) | undefined
+  get done() { return this.animationDone }
 
   render(frameBuffer: OptimizedBuffer, deltaTime: number) {
     if (this.animationDone) return

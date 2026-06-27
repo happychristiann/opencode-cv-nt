@@ -34,8 +34,10 @@ class ShatterIntroRenderable extends FrameBufferRenderable {
   protected override renderSelf(buffer: OptimizedBuffer, deltaTime = 0): void {
     if (!this.visible || this.isDestroyed) return
 
-    this._ctx.setCursorPosition(0, 0, false)
     this.painter.render(this.frameBuffer, deltaTime)
+    if (!this.painter.done) {
+      this._ctx.setCursorPosition(0, 0, false)
+    }
     super.renderSelf(buffer)
   }
 }
@@ -60,15 +62,14 @@ export function ShatterIntro({ onDone }: ShatterIntroProps) {
   onMount(() => {
     targetFps = renderer.targetFps
     maxFps = renderer.maxFps
-    renderer.targetFps = 30
-    renderer.maxFps = 30
-    renderer.setCursorPosition(0, 0, false)
+    renderer.targetFps = 60
+    renderer.maxFps = 60
   })
 
   onCleanup(() => {
     renderer.targetFps = targetFps
     renderer.maxFps = maxFps
-    renderer.setCursorPosition(0, 0, true)
+    renderer.requestRender()
   })
 
   return (
