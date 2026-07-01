@@ -1319,7 +1319,6 @@ export function Session() {
                 </Show>
               </box>
             </Show>
-            <Toast />
           </box>
           <Show when={sidebarVisible()}>
             <Switch>
