@@ -35,10 +35,12 @@ class ShatterIntroRenderable extends FrameBufferRenderable {
     if (!this.visible || this.isDestroyed) return
 
     this.painter.render(this.frameBuffer, deltaTime)
-    if (!this.painter.done) {
-      this._ctx.setCursorPosition(0, 0, false)
+    if (this.painter.done) {
+      this.visible = false
+      return
     }
-    super.renderSelf(buffer)
+    this._ctx.setCursorPosition(0, 0, false)
+    buffer.drawFrameBuffer(this.screenX, this.screenY, this.frameBuffer)
   }
 }
 
@@ -74,6 +76,10 @@ export function ShatterIntro({ onDone }: ShatterIntroProps) {
 
   return (
     <shatter_intro
+      position="absolute"
+      zIndex={6000}
+      left={0}
+      top={0}
       width="100%"
       height="100%"
       onDone={onDone}

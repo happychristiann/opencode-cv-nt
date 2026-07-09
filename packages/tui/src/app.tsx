@@ -50,13 +50,14 @@ import { DialogConsoleOrg } from "./component/dialog-console-org"
 import { ThemeProvider, useTheme } from "./context/theme"
 import { Home } from "./routes/home"
 import { Session } from "./routes/session"
+
 import { ShatterIntro } from "./component/shatter-intro"
 import { PromptHistoryProvider } from "./component/prompt/history"
 import { FrecencyProvider } from "./component/prompt/frecency"
 import { PromptStashProvider } from "./component/prompt/stash"
 import { DialogAlert } from "./ui/dialog-alert"
 import { DialogConfirm } from "./ui/dialog-confirm"
-import { ToastProvider, useToast } from "./ui/toast"
+import { Toast, ToastProvider, useToast } from "./ui/toast"
 import { isDefaultTitle } from "./util/session"
 import { KVProvider, useKV } from "./context/kv"
 import * as Model from "./util/model"
@@ -101,6 +102,7 @@ const appGlobalBindingCommands = [
 
 const appBindingCommands = [
   "command.palette.show",
+  "commands.edit",
   "model.list",
   "model.cycle_recent",
   "model.cycle_recent_reverse",
@@ -1093,8 +1095,12 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
                 {(_) => <Session />}
               </Show>
             </Match>
+            <Match when={route.data.type === "plugin"}>
+              <Show when={route.data.type === "plugin" ? route.data.id : undefined} keyed>
+                {(_) => plugin()}
+              </Show>
+            </Match>
           </Switch>
-          {plugin()}
         </box>
         <box flexShrink={0}>
           <pluginRuntime.Slot name="app_bottom" />
@@ -1105,10 +1111,9 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
         <StartupLoading ready={ready} />
       </Show>
       <Show when={showIntro()}>
-        <box position="absolute" zIndex={6000} left={0} top={0} width={dimensions().width} height={dimensions().height}>
-          <ShatterIntro onDone={() => setShowIntro(false)} />
-        </box>
+        <ShatterIntro onDone={() => setShowIntro(false)} />
       </Show>
+      <Toast />
     </box>
   )
 }

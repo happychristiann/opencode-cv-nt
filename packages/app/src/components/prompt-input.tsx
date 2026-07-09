@@ -1484,6 +1484,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
                       "[&_[data-type=agent]]:text-syntax-type": true,
                       "font-mono!": store.mode === "shell",
                     }}
+                    style={{ "caret-color": store.popover ? "transparent" : undefined }}
                   />
                   <div
                     data-component={newSession() ? "session-new-design-text" : "session-composer-text"}
@@ -1657,7 +1658,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
                     "[&_[data-type=agent]]:text-syntax-type": true,
                     "font-mono!": store.mode === "shell",
                   }}
-                  style={{ "padding-bottom": space }}
+                  style={{ "padding-bottom": space, "caret-color": store.popover ? "transparent" : undefined }}
                 />
                 <div
                   class="absolute top-0 inset-x-0 pl-3 pr-2 pt-2 text-14-regular text-text-weak pointer-events-none whitespace-nowrap truncate"
